@@ -5,7 +5,7 @@
 非常感谢Nriver 的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献
 
 
-Nrver 的翻译主页  https://github.com/Nriver/trilium-translation
+Nriver 的翻译主页  https://github.com/Nriver/trilium-translation
 
 我做的这个基于js的翻译又以下优势和劣势
 
