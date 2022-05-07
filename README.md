@@ -38,7 +38,10 @@ Nriver 的翻译主页  https://github.com/Nriver/trilium-translation
 在属性栏添加    #run=frontendStartup #run=mobileStartup 
 
 
+另外
 
+我还修改了一个目录的插件在这里
+https://github.com/lioooooh/trilium-table
 
 
 
