@@ -44,6 +44,9 @@ Nriver 的翻译主页  https://github.com/Nriver/trilium-translation
 https://github.com/lioooooh/trilium-table
 
 
+为了更好的使用这个笔记，我建了个群聊，咱们可以一起讨论如何使用这个笔记来整理思维
+还可以一起研究更多好用的功能或插件
+我的微信号  lioooooh
 
 
 
