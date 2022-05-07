@@ -2,7 +2,8 @@
 
 为了能够持续使用官方的最新版本，并期望能够减少折腾保持正常使用，我做了一个基于js的翻译脚本，可以在运行时加载。
 
-非常感谢Nriver 的翻译让我有机会认识和理解这个笔记，感谢您对开源笔记的贡献
+非常感谢Nriver 的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献
+Nrver 的翻译主页  https://github.com/Nriver/trilium-translation
 
 我做的这个基于js的翻译又以下优势和劣势
 
@@ -28,7 +29,9 @@
 
 这个脚本如何用：
 
-创建一个文本，笔记类型选择 JS前端 （ 英文：JS frontend）
+创建文本，笔记类型选择 JS前端 （ 英文：JS frontend） 
+
+把本文的两个js 分别粘贴到两个文档中
 
 在属性栏添加    #run=frontendStartup #run=mobileStartup 
 
