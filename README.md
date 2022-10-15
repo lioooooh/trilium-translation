@@ -36,13 +36,10 @@ Nriver 的翻译主页  https://github.com/Nriver/trilium-translation
 把本文的两个js 分别粘贴到两个文档中
 
 在属性栏添加    #run=frontendStartup #run=mobileStartup 
--------------------------------------
-2022年10月14日
-发现切换设置项的时候宽度不稳定
 
+2022年10月14日 发现切换设置项的时候宽度不稳定
 
 可以添加一个CSS文件  属性栏设置  #appCss 文件内容如下
-/* 设置项编辑栏的宽度固定  */
 li.nav-item {
     width: 150px;
 }
