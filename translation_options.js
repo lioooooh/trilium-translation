@@ -142,9 +142,10 @@ var translation_options=[
 
     
     
-{'searchWord':'Table of contents','replaceWord': '目录'},
-{'searchWord':'Table of contents will appear in text notes when the note has more than a defined number of headings. You can customize this number:','replaceWord': '当注释的标题数超过定义的数目时，目录将显示在文本注释中。您可以自定义此数字：'},
+
+{'searchWord':'Table of contents will appear in text notes when the note has more than a defined number of headings. You can customize this number','replaceWord': '当注释的标题数超过定义的数目时，目录将显示在文本注释中。您可以自定义此数字'},
 {'searchWord':'You can also use this option to effectively disable TOC by setting a very high number.','replaceWord': '您还可以使用此选项通过设置一个非常大的数字来有效地禁用目录。'},
+ {'searchWord':'Table of contents','replaceWord': '目录'},
     
 {'searchWord':'Options','replaceWord': '选项'},
 {'searchWord':'Appearance','replaceWord': '外观'},
@@ -174,7 +175,7 @@ function replaceBodyText(searchWord, replaceWord){
         });
     }
    replaceNode(document.querySelector(".options-dialog"));
-   //replaceNode(document.querySelector("#options-dialog"));
+    //replaceNode(document.querySelector("#modal-content"));
  
 }
 
