@@ -1,4 +1,6 @@
 
+
+
 //更长的单词需要放在页面json的前方，如果短的单词放在前面，由于前面单词先执行替换，会导致后续的长文本无法识别
 
 var translation_options=[
@@ -138,10 +140,16 @@ var translation_options=[
 {'searchWord':'Vacuum database','replaceWord': '整理数据库'},
 {'searchWord':'This will rebuild the database which will typically result in a smaller database file. No data will be actually changed.','replaceWord': '这会重建数据库, 通常会减少占用空间, 不会删除数据.'},
 
-
+    
+    
+{'searchWord':'Table of contents','replaceWord': '目录'},
+{'searchWord':'Table of contents will appear in text notes when the note has more than a defined number of headings. You can customize this number:','replaceWord': '当注释的标题数超过定义的数目时，目录将显示在文本注释中。您可以自定义此数字：'},
+{'searchWord':'You can also use this option to effectively disable TOC by setting a very high number.','replaceWord': '您还可以使用此选项通过设置一个非常大的数字来有效地禁用目录。'},
+    
 {'searchWord':'Options','replaceWord': '选项'},
 {'searchWord':'Appearance','replaceWord': '外观'},
 {'searchWord':'Shortcuts','replaceWord': '快捷键'},
+ {'searchWord':'Text notes','replaceWord': '文本笔记'},
 {'searchWord':'Code notes','replaceWord': '代码笔记'},
 {'searchWord':'Password','replaceWord': '密码'},
 {'searchWord':'Backup','replaceWord': '备份'},
@@ -165,7 +173,8 @@ function replaceBodyText(searchWord, replaceWord){
             replaceNode(v);
         });
     }
-     replaceNode(document.querySelector("#options-dialog"));
+   replaceNode(document.querySelector(".options-dialog"));
+   //replaceNode(document.querySelector("#options-dialog"));
  
 }
 
@@ -190,3 +199,10 @@ $("a.dropdown-item.options-button").on('click', function(){
     console.log("5s翻译设定");
      setTimeout (awaitreplaceBodyText, 5000);
 }); 
+
+
+
+  
+
+
+
