@@ -42,19 +42,19 @@ const doReplace = (translationList, node) => {
     {
         const tempContainer = document.createElement('tbody');
         tempContainer.innerHTML = `
-    <tr>
-        <th>翻译者:</th>
-        <td><a href="https://github.com/lioooooh/trilium-translation">柒元... github</a></td>
-    </tr>
-    <tr>
-        <th>参考翻译:</th>
-        <td><a href="https://github.com/Nriver/trilium-translation">https://github.com/Nriver/trilium-translation</a></td>
-    </tr>
-    <tr>
-        <th>重要感谢:</th>
-        <td>感谢Nriver的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献</td>
-    </tr>
-    `;
+            <tr>
+                <th>翻译者:</th>
+                <td><a href="https://github.com/lioooooh/trilium-translation">柒元... github</a></td>
+            </tr>
+            <tr>
+                <th>参考翻译:</th>
+                <td><a href="https://github.com/Nriver/trilium-translation">https://github.com/Nriver/trilium-translation</a></td>
+            </tr>
+            <tr>
+                <th>重要感谢:</th>
+                <td>感谢Nriver的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献</td>
+            </tr>
+        `;
         const aboutElement = document.querySelector('.about-dialog tbody');
         Array.from(tempContainer.children).forEach(node => aboutElement.append(node));
     }
