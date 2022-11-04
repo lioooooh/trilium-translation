@@ -28,12 +28,9 @@ const replaceBodyText = (searchWord, replaceWord, node) => {
 
 //执行替换循环的方法
 //2个参数  由待替换文字和替换成的文字组成的json，查找的节点
-const doReplace = (translation, node) => {
+const doReplace = (translationList, node) => {
     console.log("翻译执行");
-    let i = 0, l = translation.length;
-    for (; i < l; i++) {
-        const searchWord = translation[i].searchWord;
-        const replaceWord = translation[i].replaceWord;
+    for (const { searchWord, replaceWord } of translationList) {
         replaceBodyText(searchWord, replaceWord, node);
     }
 
@@ -51,7 +48,7 @@ translator();
 
 
 // 菜单栏 的翻译对应
-const translation_menu = [
+const translationMenuList = [
     { 'searchWord': 'Options', 'replaceWord': '设置选项' },
     { 'searchWord': 'Open new window', 'replaceWord': '新的窗口' },
     { 'searchWord': 'Open Dev Tools', 'replaceWord': '开发工具' },
@@ -76,9 +73,9 @@ const translation_menu = [
 $("#launcher-pane").ready(() => {
     const node = document.querySelector("#launcher-pane");
     console.log("1s翻译设定");
-    setTimeout(doReplace(translation_menu, node), 1000);
+    setTimeout(doReplace(translationMenuList, node), 1000);
     console.log("3s翻译设定");
-    setTimeout(doReplace(translation_menu, node), 3000);
+    setTimeout(doReplace(translationMenuList, node), 3000);
 
 });
 
@@ -241,16 +238,12 @@ const translation_note = [
 ];
 //由于会打开多个标签页，需要将每个标签页的内容都进行翻译
 //这里写了个循环标签页的方法
-const loopdoReplace = (translation, node) => {
+const loopdoReplace = (translationList, nodeSelector) => {
     console.log("loopdoReplace翻译执行");
-    let a = 0, b = $(node).length;
-    for (; a < b; a++) {
-        const nodelist = $(node)[a];
-        let i = 0, l = translation.length;
-        for (; i < l; i++) {
-            const searchWord = translation[i].searchWord;
-            const replaceWord = translation[i].replaceWord;
-            replaceBodyText(searchWord, replaceWord, nodelist);
+    const nodeList = $(nodeSelector);
+    for (const node of nodeList) {
+        for (const { searchWord, replaceWord } of translationList) {
+            replaceBodyText(searchWord, replaceWord, node);
         }
     }
 };

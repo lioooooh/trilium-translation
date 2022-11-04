@@ -356,10 +356,7 @@ const replaceBodyText = (searchWord, replaceWord) => {
 
 const awaitreplaceBodyText = () => {
     console.log("翻译执行");
-    let i = 0, l = translation_options.length;
-    for (; i < l; i++) {
-        const searchWord = translation_options[i].searchWord;
-        const replaceWord = translation_options[i].replaceWord;
+    for (const { searchWord, replaceWord } of translation_options) {
         replaceBodyText(searchWord, replaceWord);
     }
 };
