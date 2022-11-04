@@ -1,5 +1,3 @@
-//更长的单词需要放在页面json的前方，如果短的单词放在前面，由于前面单词先执行替换，会导致后续的长文本无法识别
-
 const translation_options = [
     {
         'searchWord': 'Settings on this options tab are saved automatically after each change.',
@@ -331,6 +329,9 @@ const translation_options = [
     { 'searchWord': 'Advanced', 'replaceWord': '高级' },
 
 ];
+
+// 将短的文本排在前面，避免长文本包含短文本导致匹配失败的问题。
+translation_options.sort((a, b) => a.searchWord.length - b.searchWord.length);
 
 const replaceBodyText = (searchWord, replaceWord) => {
     const reg = new RegExp(searchWord, 'g');
