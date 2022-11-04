@@ -1,6 +1,6 @@
 //更长的单词需要放在页面json的前方，如果短的单词放在前面，由于前面单词先执行替换，会导致后续的长文本无法识别
 
-var translation_options = [
+const translation_options = [
     {
         'searchWord': 'Settings on this options tab are saved automatically after each change.',
         'replaceWord': '配置在每次修改后会自动保存.',
@@ -333,7 +333,7 @@ var translation_options = [
 ];
 
 function replaceBodyText(searchWord, replaceWord) {
-    var reg = new RegExp(searchWord, 'g');
+    const reg = new RegExp(searchWord, 'g');
 
     function replaceNode(node) {
         node.childNodes.forEach(function (v) {
@@ -356,9 +356,10 @@ function replaceBodyText(searchWord, replaceWord) {
 
 function awaitreplaceBodyText() {
     console.log("翻译执行");
-    for (var i = 0, l = translation_options.length; i < l; i++) {
-        var searchWord = translation_options[i].searchWord;
-        var replaceWord = translation_options[i].replaceWord;
+    let i = 0, l = translation_options.length;
+    for (; i < l; i++) {
+        const searchWord = translation_options[i].searchWord;
+        const replaceWord = translation_options[i].replaceWord;
         replaceBodyText(searchWord, replaceWord);
     }
 }

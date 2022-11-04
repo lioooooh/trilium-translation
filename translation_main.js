@@ -8,7 +8,7 @@
 //替换的方法
 //三个参数  待替换文字，替换成的文字，查找的节点
 function replaceBodyText(searchWord, replaceWord, node) {
-    var reg = new RegExp(searchWord, 'g');
+    const reg = new RegExp(searchWord, 'g');
 
     function replaceNode(node) {
         node.childNodes.forEach(function (v) {
@@ -30,9 +30,10 @@ function replaceBodyText(searchWord, replaceWord, node) {
 //2个参数  由待替换文字和替换成的文字组成的json，查找的节点
 function doReplace(translation, node) {
     console.log("翻译执行");
-    for (var i = 0, l = translation.length; i < l; i++) {
-        var searchWord = translation[i].searchWord;
-        var replaceWord = translation[i].replaceWord;
+    let i = 0, l = translation.length;
+    for (; i < l; i++) {
+        const searchWord = translation[i].searchWord;
+        const replaceWord = translation[i].replaceWord;
         replaceBodyText(searchWord, replaceWord, node);
     }
 
@@ -41,8 +42,8 @@ function doReplace(translation, node) {
 //在关于里面添加翻译者的github链接
 //这可以让您更方便的找到我，并获取最新翻译的更新
 function translator() {
-    var tr_translator = '<tr><th>翻译者:</th><td><a href="https://github.com/lioooooh/trilium-translation">柒元... github</a></td></tr><tr><th>参考翻译:</th><td><a href="https://github.com/Nriver/trilium-translation">https://github.com/Nriver/trilium-translation</a></td></tr><tr><th>重要感谢:</th><td>感谢Nriver的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献</td></tr>';
-    var translator = $('table.table.table-borderless')[0];
+    const tr_translator = '<tr><th>翻译者:</th><td><a href="https://github.com/lioooooh/trilium-translation">柒元... github</a></td></tr><tr><th>参考翻译:</th><td><a href="https://github.com/Nriver/trilium-translation">https://github.com/Nriver/trilium-translation</a></td></tr><tr><th>重要感谢:</th><td>感谢Nriver的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献</td></tr>';
+    const translator = $('table.table.table-borderless')[0];
     translator.innerHTML += tr_translator;
 }
 
@@ -50,7 +51,7 @@ translator();
 
 
 // 菜单栏 的翻译对应
-var translation_menu = [
+const translation_menu = [
     { 'searchWord': 'Options', 'replaceWord': '设置选项' },
     { 'searchWord': 'Open new window', 'replaceWord': '新的窗口' },
     { 'searchWord': 'Open Dev Tools', 'replaceWord': '开发工具' },
@@ -73,7 +74,7 @@ var translation_menu = [
 // 菜单页 加载就绪后执行翻译，
 //不是所有的都可以这样，因为不是所有页面打开时就会加载
 $("#launcher-pane").ready(function () {
-    var node = document.querySelector("#launcher-pane");
+    const node = document.querySelector("#launcher-pane");
     console.log("1s翻译设定");
     setTimeout(doReplace(translation_menu, node), 1000);
     console.log("3s翻译设定");
@@ -83,7 +84,7 @@ $("#launcher-pane").ready(function () {
 
 
 // 关于Trilium 的翻译对应
-var translation_about = [
+const translation_about = [
     { 'searchWord': 'About Trilium Notes', 'replaceWord': '关于 Trilium 笔记' },
     { 'searchWord': 'Homepage', 'replaceWord': '项目主页' },
     { 'searchWord': 'App version', 'replaceWord': '应用版本' },
@@ -100,7 +101,7 @@ var translation_about = [
 //在点击后的第1秒和第3秒执行翻译任务
 
 $("a.dropdown-item.show-about-dialog-button").on('click', function () {
-    var node = document.querySelector("#about-dialog");
+    const node = document.querySelector("#about-dialog");
     console.log("1s翻译设定");
     setTimeout(doReplace(translation_about, node), 1000);
     console.log("3s翻译设定");
@@ -110,7 +111,7 @@ $("a.dropdown-item.show-about-dialog-button").on('click', function () {
 
 
 // 笔记树角落的设置 的翻译对应
-var translation_tree_actions = [
+const translation_tree_actions = [
     { 'searchWord': 'Hide archived notes', 'replaceWord': '隐藏已归档笔记' },
     {
         'searchWord': 'Hide images included in a note',
@@ -128,7 +129,7 @@ var translation_tree_actions = [
 //在点击后的第1秒和第3秒执行翻译任务
 
 $("button.tree-floating-button.bx.bx-cog.tree-settings-button").on('click', function () {
-    var node = document.querySelector(".tree-settings-popup");
+    const node = document.querySelector(".tree-settings-popup");
     console.log("1s翻译设定");
     setTimeout(() => {
         doReplace(translation_tree_actions, node);
@@ -136,7 +137,7 @@ $("button.tree-floating-button.bx.bx-cog.tree-settings-button").on('click', func
 });
 
 //文档属性模块 的翻译对应
-var translation_note = [
+const translation_note = [
     { 'searchWord': 'Basic Properties', 'replaceWord': '基本属性' },
     { 'searchWord': 'Note type', 'replaceWord': '笔记类型' },
     { 'searchWord': 'Relation Map', 'replaceWord': '关系图' },
@@ -242,11 +243,13 @@ var translation_note = [
 //这里写了个循环标签页的方法
 function loopdoReplace(translation, node) {
     console.log("loopdoReplace翻译执行");
-    for (var a = 0, b = $(node).length; a < b; a++) {
-        var nodelist = $(node)[a];
-        for (var i = 0, l = translation.length; i < l; i++) {
-            var searchWord = translation[i].searchWord;
-            var replaceWord = translation[i].replaceWord;
+    let a = 0, b = $(node).length;
+    for (; a < b; a++) {
+        const nodelist = $(node)[a];
+        let i = 0, l = translation.length;
+        for (; i < l; i++) {
+            const searchWord = translation[i].searchWord;
+            const replaceWord = translation[i].replaceWord;
             replaceBodyText(searchWord, replaceWord, nodelist);
         }
     }
@@ -254,7 +257,7 @@ function loopdoReplace(translation, node) {
 
 // 有时加载时就已经有页面打开，因此也需要 加载就绪后执行翻译，
 $(".tab-row-widget.component").ready(function () {
-    var node = ".ribbon-container.component";
+    const node = ".ribbon-container.component";
     console.log("0.5s文档属性翻译设定");
     setTimeout(() => {
         loopdoReplace(translation_note, node);
@@ -270,7 +273,7 @@ $(".tab-row-widget.component").ready(function () {
 //.ribbon-container.component
 //document.querySelector(".ribbon-container.component");
 $(".tab-row-widget.component").on('click', function () {
-    var node = ".ribbon-container.component";
+    const node = ".ribbon-container.component";
     console.log("0.5s文档属性翻译设定");
     setTimeout(() => {
         loopdoReplace(translation_note, node);
@@ -283,7 +286,7 @@ $(".tab-row-widget.component").on('click', function () {
 
 //点击按钮打开搜索时
 $("span.button-widget.icon-action.bx.component.bx-search").on('click', function () {
-    var node = ".ribbon-container.component";
+    const node = ".ribbon-container.component";
     console.log("0.5s文档属性翻译设定");
     setTimeout(() => {
         loopdoReplace(translation_note, node);
