@@ -330,8 +330,8 @@ const translation_options = [
 
 ];
 
-// 将短的文本排在前面，避免长文本包含短文本导致匹配失败的问题。
-translation_options.sort((a, b) => a.searchWord.length - b.searchWord.length);
+// 将长的文本排在前面，避免长文本包含短文本导致匹配失败的问题。
+translation_options.sort((a, b) => b.searchWord.length - a.searchWord.length);
 
 const replaceBodyText = (searchWord, replaceWord) => {
     const reg = new RegExp(searchWord, 'g');
@@ -356,27 +356,22 @@ const replaceBodyText = (searchWord, replaceWord) => {
 
 
 const awaitreplaceBodyText = () => {
-    console.log("翻译执行");
+    console.log("Options翻译执行");
     for (const { searchWord, replaceWord } of translation_options) {
         replaceBodyText(searchWord, replaceWord);
     }
 };
 
+{
+    // 选择需要观察变动的节点
+    const targetNode = document.querySelector('.options-dialog');
 
-$("a.dropdown-item.options-button").on('click', () => {
-    console.log("0.5s翻译设定");
-    setTimeout(awaitreplaceBodyText, 500);
-    console.log("1s翻译设定");
-    setTimeout(awaitreplaceBodyText, 1000);
-    console.log("3s翻译设定");
-    setTimeout(awaitreplaceBodyText, 3000);
-    console.log("5s翻译设定");
-    setTimeout(awaitreplaceBodyText, 5000);
-});
+    // 观察器的配置（需要观察什么变动）
+    const config = { attributes: true, childList: true, subtree: true };
 
+    // 创建一个观察器实例并传入回调函数
+    const observer = new MutationObserver(awaitreplaceBodyText);
 
-
-
-
-
-
+    // 以上述配置开始观察目标节点
+    observer.observe(targetNode, config);
+}
