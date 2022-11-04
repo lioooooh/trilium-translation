@@ -38,13 +38,27 @@ const doReplace = (translationList, node) => {
 
 //在关于里面添加翻译者的github链接
 //这可以让您更方便的找到我，并获取最新翻译的更新
-const translator = () => {
-    const tr_translator = '<tr><th>翻译者:</th><td><a href="https://github.com/lioooooh/trilium-translation">柒元... github</a></td></tr><tr><th>参考翻译:</th><td><a href="https://github.com/Nriver/trilium-translation">https://github.com/Nriver/trilium-translation</a></td></tr><tr><th>重要感谢:</th><td>感谢Nriver的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献</td></tr>';
-    const translator = $('table.table.table-borderless')[0];
-    translator.innerHTML += tr_translator;
-};
-
-translator();
+{
+    {
+        const tempContainer = document.createElement('tbody');
+        tempContainer.innerHTML = `
+    <tr>
+        <th>翻译者:</th>
+        <td><a href="https://github.com/lioooooh/trilium-translation">柒元... github</a></td>
+    </tr>
+    <tr>
+        <th>参考翻译:</th>
+        <td><a href="https://github.com/Nriver/trilium-translation">https://github.com/Nriver/trilium-translation</a></td>
+    </tr>
+    <tr>
+        <th>重要感谢:</th>
+        <td>感谢Nriver的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献</td>
+    </tr>
+    `;
+        const aboutElement = document.querySelector('.about-dialog tbody');
+        Array.from(tempContainer.children).forEach(node => aboutElement.append(node));
+    }
+}
 
 
 // 菜单栏 的翻译对应
