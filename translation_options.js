@@ -333,13 +333,19 @@ const translation_options = [
 // 将长的文本排在前面，避免长文本包含短文本导致匹配失败的问题。
 translation_options.sort((a, b) => b.searchWord.length - a.searchWord.length);
 
+const nodeNameListExcluded = [
+    'SCRIPT',
+    'INPUT',
+    'TEXTAREA',
+];
+
 const replaceBodyText = (searchWord, replaceWord) => {
     const reg = new RegExp(searchWord, 'g');
 
     const replaceNode = (node) => {
         node.childNodes.forEach((v) => {
-            if (v.nodeName === 'SCRIPT')
-                return; //排除<script>标签
+            if (nodeNameListExcluded.includes(v.nodeName))
+                return; //排除一些标签
             if (!v.hasChildNodes()) {
                 if (reg.test(v.textContent))
                     v.textContent = v.textContent.replace(reg, replaceWord);
