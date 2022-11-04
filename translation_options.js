@@ -332,11 +332,11 @@ const translation_options = [
 
 ];
 
-function replaceBodyText(searchWord, replaceWord) {
+const replaceBodyText = (searchWord, replaceWord) => {
     const reg = new RegExp(searchWord, 'g');
 
-    function replaceNode(node) {
-        node.childNodes.forEach(function (v) {
+    const replaceNode = (node) => {
+        node.childNodes.forEach((v) => {
             if (v.nodeName === 'SCRIPT')
                 return; //排除<script>标签
             if (!v.hasChildNodes()) {
@@ -346,15 +346,15 @@ function replaceBodyText(searchWord, replaceWord) {
             }
             replaceNode(v);
         });
-    }
+    };
 
     replaceNode(document.querySelector(".options-dialog"));
     //replaceNode(document.querySelector("#modal-content"));
 
-}
+};
 
 
-function awaitreplaceBodyText() {
+const awaitreplaceBodyText = () => {
     console.log("翻译执行");
     let i = 0, l = translation_options.length;
     for (; i < l; i++) {
@@ -362,10 +362,10 @@ function awaitreplaceBodyText() {
         const replaceWord = translation_options[i].replaceWord;
         replaceBodyText(searchWord, replaceWord);
     }
-}
+};
 
 
-$("a.dropdown-item.options-button").on('click', function () {
+$("a.dropdown-item.options-button").on('click', () => {
     console.log("0.5s翻译设定");
     setTimeout(awaitreplaceBodyText, 500);
     console.log("1s翻译设定");

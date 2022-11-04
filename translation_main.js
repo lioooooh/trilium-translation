@@ -7,11 +7,11 @@
 
 //替换的方法
 //三个参数  待替换文字，替换成的文字，查找的节点
-function replaceBodyText(searchWord, replaceWord, node) {
+const replaceBodyText = (searchWord, replaceWord, node) => {
     const reg = new RegExp(searchWord, 'g');
 
-    function replaceNode(node) {
-        node.childNodes.forEach(function (v) {
+    const replaceNode = (node) => {
+        node.childNodes.forEach((v) => {
             if (v.nodeName === 'SCRIPT')
                 return; //排除<script>标签
             if (!v.hasChildNodes()) {
@@ -21,14 +21,14 @@ function replaceBodyText(searchWord, replaceWord, node) {
             }
             replaceNode(v);
         });
-    }
+    };
 
     replaceNode(node);
-}
+};
 
 //执行替换循环的方法
 //2个参数  由待替换文字和替换成的文字组成的json，查找的节点
-function doReplace(translation, node) {
+const doReplace = (translation, node) => {
     console.log("翻译执行");
     let i = 0, l = translation.length;
     for (; i < l; i++) {
@@ -37,15 +37,15 @@ function doReplace(translation, node) {
         replaceBodyText(searchWord, replaceWord, node);
     }
 
-}
+};
 
 //在关于里面添加翻译者的github链接
 //这可以让您更方便的找到我，并获取最新翻译的更新
-function translator() {
+const translator = () => {
     const tr_translator = '<tr><th>翻译者:</th><td><a href="https://github.com/lioooooh/trilium-translation">柒元... github</a></td></tr><tr><th>参考翻译:</th><td><a href="https://github.com/Nriver/trilium-translation">https://github.com/Nriver/trilium-translation</a></td></tr><tr><th>重要感谢:</th><td>感谢Nriver的翻译让我有机会认识和理解这个笔记，感谢您对trilium的贡献</td></tr>';
     const translator = $('table.table.table-borderless')[0];
     translator.innerHTML += tr_translator;
-}
+};
 
 translator();
 
@@ -73,7 +73,7 @@ const translation_menu = [
 
 // 菜单页 加载就绪后执行翻译，
 //不是所有的都可以这样，因为不是所有页面打开时就会加载
-$("#launcher-pane").ready(function () {
+$("#launcher-pane").ready(() => {
     const node = document.querySelector("#launcher-pane");
     console.log("1s翻译设定");
     setTimeout(doReplace(translation_menu, node), 1000);
@@ -100,7 +100,7 @@ const translation_about = [
 //监听被点击的区域
 //在点击后的第1秒和第3秒执行翻译任务
 
-$("a.dropdown-item.show-about-dialog-button").on('click', function () {
+$("a.dropdown-item.show-about-dialog-button").on('click', () => {
     const node = document.querySelector("#about-dialog");
     console.log("1s翻译设定");
     setTimeout(doReplace(translation_about, node), 1000);
@@ -128,7 +128,7 @@ const translation_tree_actions = [
 //监听被点击的区域
 //在点击后的第1秒和第3秒执行翻译任务
 
-$("button.tree-floating-button.bx.bx-cog.tree-settings-button").on('click', function () {
+$("button.tree-floating-button.bx.bx-cog.tree-settings-button").on('click', () => {
     const node = document.querySelector(".tree-settings-popup");
     console.log("1s翻译设定");
     setTimeout(() => {
@@ -241,7 +241,7 @@ const translation_note = [
 ];
 //由于会打开多个标签页，需要将每个标签页的内容都进行翻译
 //这里写了个循环标签页的方法
-function loopdoReplace(translation, node) {
+const loopdoReplace = (translation, node) => {
     console.log("loopdoReplace翻译执行");
     let a = 0, b = $(node).length;
     for (; a < b; a++) {
@@ -253,10 +253,10 @@ function loopdoReplace(translation, node) {
             replaceBodyText(searchWord, replaceWord, nodelist);
         }
     }
-}
+};
 
 // 有时加载时就已经有页面打开，因此也需要 加载就绪后执行翻译，
-$(".tab-row-widget.component").ready(function () {
+$(".tab-row-widget.component").ready(() => {
     const node = ".ribbon-container.component";
     console.log("0.5s文档属性翻译设定");
     setTimeout(() => {
@@ -272,7 +272,7 @@ $(".tab-row-widget.component").ready(function () {
 //监听 【文章标签】 的点击事件
 //.ribbon-container.component
 //document.querySelector(".ribbon-container.component");
-$(".tab-row-widget.component").on('click', function () {
+$(".tab-row-widget.component").on('click', () => {
     const node = ".ribbon-container.component";
     console.log("0.5s文档属性翻译设定");
     setTimeout(() => {
@@ -285,7 +285,7 @@ $(".tab-row-widget.component").on('click', function () {
 });
 
 //点击按钮打开搜索时
-$("span.button-widget.icon-action.bx.component.bx-search").on('click', function () {
+$("span.button-widget.icon-action.bx.component.bx-search").on('click', () => {
     const node = ".ribbon-container.component";
     console.log("0.5s文档属性翻译设定");
     setTimeout(() => {
