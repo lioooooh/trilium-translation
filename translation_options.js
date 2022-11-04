@@ -333,51 +333,86 @@ const translation_options = [
 // 将长的文本排在前面，避免长文本包含短文本导致匹配失败的问题。
 translation_options.sort((a, b) => b.searchWord.length - a.searchWord.length);
 
-const nodeNameListExcluded = [
+/**
+ * 替换要排除的标签名称
+ * @type {string[]}
+ */
+const tagNameListExcluded = [
     'SCRIPT',
     'INPUT',
     'TEXTAREA',
 ];
 
-const replaceBodyText = (searchWord, replaceWord) => {
-    const reg = new RegExp(searchWord, 'g');
+/**
+ * Options对话框的主题框架选择器
+ * @type {string}
+ */
+const OPTIONS_SELECTOR = '.options-dialog';
 
-    const replaceNode = (node) => {
-        node.childNodes.forEach((v) => {
-            if (nodeNameListExcluded.includes(v.nodeName))
-                return; //排除一些标签
-            if (!v.hasChildNodes()) {
-                if (reg.test(v.textContent))
-                    v.textContent = v.textContent.replace(reg, replaceWord);
-                return;
-            }
-            replaceNode(v);
+/**
+ * Options对话框的主题框架。
+ * 包含标题和目录。
+ * @type {Element}
+ */
+const optionsElement = document.querySelector(OPTIONS_SELECTOR);
+/**
+ * 观察器
+ * @type {MutationObserver}
+ */
+let observer;
+
+/**
+ * 观察器的配置，仅观察每个Tab页元素的子节点列表是否有变化。
+ * 当Options对话框显示的时候会启动生成每个标签页的内容，此时触发观察器。
+ * @type {{subtree: boolean, attributes: boolean, childList: boolean}}
+ */
+const observerConfig = { attributes: false, childList: true, subtree: false };
+
+/**
+ * Options标签页的选择器
+ * @type {string}
+ */
+const OPTION_TAB_SELECTOR = '.tab-content>.tab-pane';
+
+/**
+ * 递归扫描节点树
+ * @param {Element|Node} node
+ */
+const replaceNode = (node) => {
+    if (node.hasChildNodes()) {
+        node.childNodes.forEach(childNode => {
+            replaceNode(childNode);
         });
-    };
-
-    replaceNode(document.querySelector(".options-dialog"));
-    //replaceNode(document.querySelector("#modal-content"));
-
-};
-
-
-const awaitreplaceBodyText = () => {
-    console.log("Options翻译执行");
-    for (const { searchWord, replaceWord } of translation_options) {
-        replaceBodyText(searchWord, replaceWord);
+    } else {
+        if (!tagNameListExcluded.includes(node.tagName)) {
+            for (const { searchWord, replaceWord } of translation_options) {
+                const reg = new RegExp(searchWord, 'g');
+                node.textContent = node.textContent.replace(reg, replaceWord);
+            }
+        }
     }
 };
 
-{
-    // 选择需要观察变动的节点
-    const targetNode = document.querySelector('.options-dialog');
+replaceNode(optionsElement); // 翻译Options对话框的标题和目录
 
-    // 观察器的配置（需要观察什么变动）
-    const config = { attributes: true, childList: true, subtree: true };
+/**
+ *
+ * @param {Array<MutationRecord>} mutationList
+ */
+const replaceBodyText = (mutationList) => {
+    console.log(mutationList);
 
-    // 创建一个观察器实例并传入回调函数
-    const observer = new MutationObserver(awaitreplaceBodyText);
+    mutationList.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+            console.log(`Options ${mutation.target.id} Tab的翻译执行`);
+            replaceNode(mutation.target);
+        }
+    });
+};
 
-    // 以上述配置开始观察目标节点
-    observer.observe(targetNode, config);
-}
+// 创建一个观察器实例并传入回调函数
+observer = new MutationObserver(replaceBodyText);
+
+document.querySelectorAll(OPTION_TAB_SELECTOR).forEach(tabElement => {
+    observer.observe(tabElement, observerConfig); // 观察每个Tab页
+});
