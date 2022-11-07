@@ -1,4 +1,18 @@
-const translation_options = [
+/**
+ *
+ * @typedef {Object} TranslationUnit
+ * @property {String} searchWord - 要被替换的文字
+ * @property {String} replaceWord - 要替换成的文字
+ */
+
+/**
+ * @typedef {Array<TranslationUnit>} Translation
+ */
+
+/**
+ * @type {Translation}
+ */
+const translationOptions = [
     {
         'searchWord': 'Settings on this options tab are saved automatically after each change.',
         'replaceWord': '配置在每次修改后会自动保存.',
@@ -331,7 +345,7 @@ const translation_options = [
 ];
 
 // 将长的文本排在前面，避免长文本包含短文本导致匹配失败的问题。
-translation_options.sort((a, b) => b.searchWord.length - a.searchWord.length);
+translationOptions.sort((a, b) => b.searchWord.length - a.searchWord.length);
 
 /**
  * 替换要排除的标签名称
@@ -355,11 +369,6 @@ const OPTIONS_SELECTOR = '.options-dialog';
  * @type {Element}
  */
 const optionsElement = document.querySelector(OPTIONS_SELECTOR);
-/**
- * 观察器
- * @type {MutationObserver}
- */
-let observer;
 
 /**
  * 观察器的配置，仅观察每个Tab页元素的子节点列表是否有变化。
@@ -376,16 +385,17 @@ const OPTION_TAB_SELECTOR = '.tab-content>.tab-pane';
 
 /**
  * 递归扫描节点树
+ * @param {Translation} translation
  * @param {Element|Node} node
  */
-const replaceNode = (node) => {
+const recurveSearchNodeAndReplaceText = (translation, node) => {
     if (node.hasChildNodes()) {
         node.childNodes.forEach(childNode => {
-            replaceNode(childNode);
+            recurveSearchNodeAndReplaceText(translation, childNode);
         });
     } else {
         if (!tagNameListExcluded.includes(node.tagName)) {
-            for (const { searchWord, replaceWord } of translation_options) {
+            for (const { searchWord, replaceWord } of translation) {
                 const reg = new RegExp(searchWord, 'g');
                 node.textContent = node.textContent.replace(reg, replaceWord);
             }
@@ -393,26 +403,30 @@ const replaceNode = (node) => {
     }
 };
 
-replaceNode(optionsElement); // 翻译Options对话框的标题和目录
+recurveSearchNodeAndReplaceText(translationOptions, optionsElement); // 翻译Options对话框的标题和目录
 
-/**
- *
- * @param {Array<MutationRecord>} mutationList
- */
-const replaceBodyText = (mutationList) => {
-    console.log(mutationList);
 
-    mutationList.forEach((mutation) => {
-        if (mutation.type === 'childList') {
-            console.log(`Options ${mutation.target.id} Tab的翻译执行`);
-            replaceNode(mutation.target);
-        }
-    });
-};
+const watchAndTranslate = (translation, node) => {
+    /**
+     * @param {Array<MutationRecord>} mutationList
+     */
+    const mutationCallback = (mutationList) => {
+        console.log(mutationList);
+
+        mutationList.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                console.log(`Options ${mutation.target.id} Tab的翻译执行`);
+                recurveSearchNodeAndReplaceText(translation, mutation.target);
+            }
+        });
+    };
 
 // 创建一个观察器实例并传入回调函数
-observer = new MutationObserver(replaceBodyText);
+    const observer = new MutationObserver(mutationCallback);
+
+    observer.observe(node, observerConfig);
+};
 
 document.querySelectorAll(OPTION_TAB_SELECTOR).forEach(tabElement => {
-    observer.observe(tabElement, observerConfig); // 观察每个Tab页
+    watchAndTranslate(translationOptions, tabElement); // 观察每个Tab页
 });
