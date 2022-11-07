@@ -106,16 +106,10 @@ const translation_about = [
 //关于Trilium  弹窗的翻译
 //监听被点击的区域
 //在点击后的第1秒和第3秒执行翻译任务
-
-$("a.dropdown-item.show-about-dialog-button").on('click', () => {
-    const node = document.querySelector("#about-dialog");
-    console.log("1s翻译设定");
-    setTimeout(doReplace(translation_about, node), 1000);
-    console.log("3s翻译设定");
-    setTimeout(doReplace(translation_about, node), 3000);
-
-});
-
+{
+    const node = document.querySelector(".about-dialog");
+    doReplace(translation_about, node)
+}
 
 // 笔记树角落的设置 的翻译对应
 const translation_tree_actions = [
