@@ -84,14 +84,10 @@ const translationMenuList = [
 
 // 菜单页 加载就绪后执行翻译，
 //不是所有的都可以这样，因为不是所有页面打开时就会加载
-$("#launcher-pane").ready(() => {
+{
     const node = document.querySelector("#launcher-pane");
-    console.log("1s翻译设定");
-    setTimeout(doReplace(translationMenuList, node), 1000);
-    console.log("3s翻译设定");
-    setTimeout(doReplace(translationMenuList, node), 3000);
-
-});
+    doReplace(translationMenuList, node);
+}
 
 
 // 关于Trilium 的翻译对应
