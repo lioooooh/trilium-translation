@@ -128,14 +128,10 @@ const translation_tree_actions = [
 //监听 【设置按钮】 的点击事件
 //监听被点击的区域
 //在点击后的第1秒和第3秒执行翻译任务
-
-$("button.tree-floating-button.bx.bx-cog.tree-settings-button").on('click', () => {
+{
     const node = document.querySelector(".tree-settings-popup");
-    console.log("1s翻译设定");
-    setTimeout(() => {
-        doReplace(translation_tree_actions, node);
-    }, 1000);
-});
+    doReplace(translation_tree_actions, node);
+}
 
 //文档属性模块 的翻译对应
 const translation_note = [
