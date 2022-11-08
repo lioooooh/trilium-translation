@@ -549,12 +549,15 @@ const translationSettingList = [
             splitNoteContainerWidgetObserverCallback();
 
             // 观察.split-note-container-widget的childList变化
-            const splitNoteContainerWidgetObserver = new MutationObserver(splitNoteContainerWidgetObserverCallback);
-            splitNoteContainerWidgetObserver.observe(document.querySelector(selector), {
-                "attributes": false,
-                "childList": true,
-                "subtree": false,
-            });
+            const splitNoteContainerWidgetElement = document.querySelector(selector);
+            if (splitNoteContainerWidgetElement !== null) {
+                const splitNoteContainerWidgetObserver = new MutationObserver(splitNoteContainerWidgetObserverCallback);
+                splitNoteContainerWidgetObserver.observe(splitNoteContainerWidgetElement, {
+                    "attributes": false,
+                    "childList": true,
+                    "subtree": false,
+                });
+            }
         },
         "translation": [
             { 'searchWord': 'Basic Properties', 'replaceWord': '基本属性' },
@@ -841,5 +844,7 @@ for (const {
         </tr>
     `;
     const aboutElement = document.querySelector('.about-dialog tbody');
-    Array.from(tempContainer.children).forEach(node => aboutElement.append(node));
+    if (aboutElement !== null) {
+        Array.from(tempContainer.children).forEach(node => aboutElement.append(node));
+    }
 }
