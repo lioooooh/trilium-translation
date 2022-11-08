@@ -430,7 +430,7 @@ const translationSettingList = [
     },
     {
         "description": "左侧菜单栏",
-        "selector": "#launcher-pane",
+        "selector": "body.desktop #launcher-pane,body.mobile #global-buttons",
         "method": "static",
         "translation": [
             { 'searchWord': 'Options', 'replaceWord': '设置选项' },
