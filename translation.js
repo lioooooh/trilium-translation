@@ -21,7 +21,7 @@
  * @property {String} [description] - 描述信息
  * @property {Translation} translation - 翻译数据
  * @property {String} selector - 选择器
- * @property {"static"|"dynamic"|TranslationProcessor} method - 翻译方式，如果逻辑复杂可以传入一个TranslationProcessor函数来自己写过程
+ * @property {"static"|"dynamic"|"tab"|TranslationProcessor} method - 翻译方式，如果逻辑复杂可以传入一个TranslationProcessor函数来自己写过程
  * @property {Array<"attributes"|"childList"|"subtree">} [monitor] - 监听类别
  */
 
@@ -433,6 +433,8 @@ const translationSettingList = [
         "selector": "body.desktop #launcher-pane,body.mobile #global-buttons",
         "method": "static",
         "translation": [
+            { 'searchWord': 'Menu', 'replaceWord': '菜单' },
+            { 'searchWord': 'New note', 'replaceWord': '新建笔记' },
             { 'searchWord': 'Options', 'replaceWord': '设置选项' },
             { 'searchWord': 'Open new window', 'replaceWord': '新的窗口' },
             { 'searchWord': 'Open Dev Tools', 'replaceWord': '开发工具' },
@@ -497,78 +499,22 @@ const translationSettingList = [
         ],
     },
     {
-        "description": "文档标签页",
-        "selector": ".split-note-container-widget",
-        "method": (translation, selector, description) => {
-            // 文档标签页
-            /*
-            加载脚本前标签页已经存在；
-            新建标签页切换展示前不加载属性按钮label；
-            新建标签页新增加一套DOM结构无法被事先监视；
-             */
-            const ribbonTabContainerObserverCallback = (mutationList) => {
-                // 对属性栏主按钮的label进行翻译
-                for (const mutation of mutationList) {
-                    translate(
-                        translation,
-                        mutation.target,
-                        description,
-                    );
-                }
-            };
-
-            const splitNoteContainerWidgetObserverCallback = () => {
-                // 找出未加载标签页
-                const newTabList = document.querySelectorAll('.note-split:not(.type-code)');
-                newTabList.forEach(newTab => {
-                    // 对未加载标签页进行翻译
-                    translate(
-                        translation,
-                        newTab.querySelector('.ribbon-container'),
-                        description,
-                    );
-                    // 观察.ribbon-tab-container的childList变化
-                    const ribbonTabContainerObserver = new MutationObserver(ribbonTabContainerObserverCallback);
-                    ribbonTabContainerObserver.observe(newTab.querySelector('.ribbon-tab-container'), {
-                        "attributes": false,
-                        "childList": true,
-                        "subtree": false,
-                    });
-                });
-            };
-
-            // 对已有、已加载的标签页的属性栏进行翻译
-            document.querySelectorAll('.note-split.type-code .ribbon-container').forEach(node => {
-                translate(
-                    translation,
-                    node,
-                    description,
-                );
-            });
-            // 对已有、未加载的标签页的属性栏进行翻译
-            splitNoteContainerWidgetObserverCallback();
-
-            // 观察.split-note-container-widget的childList变化
-            const splitNoteContainerWidgetElement = document.querySelector(selector);
-            if (splitNoteContainerWidgetElement !== null) {
-                const splitNoteContainerWidgetObserver = new MutationObserver(splitNoteContainerWidgetObserverCallback);
-                splitNoteContainerWidgetObserver.observe(splitNoteContainerWidgetElement, {
-                    "attributes": false,
-                    "childList": true,
-                    "subtree": false,
-                });
-            }
-        },
+        "description": "标签页标题栏",
+        "selector": ".title-row",
+        "method": "tab",
         "translation": [
+            { 'searchWord': 'Create new split', 'replaceWord': '新建分栏' },
+            { 'searchWord': 'Change note icon', 'replaceWord': '更换笔记图标' },
+        ],
+    },
+    {
+        "description": "标签页属性按钮栏",
+        "selector": ".ribbon-tab-container,.ribbon-button-container",
+        "method": "tab",
+        "translation": [
+            { 'searchWord': 'Edited Notes', 'replaceWord': '已编辑笔记' },
+            { 'searchWord': 'Promoted attributes', 'replaceWord': '推进属性' },
             { 'searchWord': 'Basic Properties', 'replaceWord': '基本属性' },
-            { 'searchWord': 'Note type', 'replaceWord': '笔记类型' },
-            { 'searchWord': 'Relation Map', 'replaceWord': '关系图' },
-            { 'searchWord': 'Render Note', 'replaceWord': '渲染笔记' },
-            { 'searchWord': 'Mermaid Diagram', 'replaceWord': '美人鱼图' },
-            { 'searchWord': 'Protect the note', 'replaceWord': '保护笔记' },
-            { 'searchWord': 'Editable', 'replaceWord': '允许编辑' },
-            { 'searchWord': 'Bookmark', 'replaceWord': '书签' },
-            { 'searchWord': 'Shared', 'replaceWord': '分享' },
             {
                 'searchWord': 'Owned attributes',
                 'replaceWord': '拥有的属性',
@@ -578,6 +524,43 @@ const translationSettingList = [
                 'replaceWord': '继承的属性',
             },
             { 'searchWord': 'Note Paths', 'replaceWord': '笔记路径' },
+            { 'searchWord': 'Note Map', 'replaceWord': '笔记地图' },
+            { 'searchWord': 'Similar Notes', 'replaceWord': '相似笔记' },
+            { 'searchWord': 'Note Info', 'replaceWord': '笔记信息' },
+            { 'searchWord': 'Edit this note', 'replaceWord': '修改此笔记' },
+            { 'searchWord': 'Note Revisions', 'replaceWord': '笔记修订版本' },
+            {
+                'searchWord': 'Re-render note',
+                'replaceWord': '重新渲染笔记',
+            },
+            {
+                'searchWord': 'Search in note ',
+                'replaceWord': '在笔记中搜索',
+            },
+            { 'searchWord': 'Note source', 'replaceWord': '笔记源代码' },
+            {
+                'searchWord': 'Open note externally',
+                'replaceWord': '用外部程序打开笔记',
+            },
+            { 'searchWord': 'Import files', 'replaceWord': '导入文件' },
+            { 'searchWord': 'Export note', 'replaceWord': '导出笔记' },
+            { 'searchWord': 'Delete note', 'replaceWord': '删除笔记' },
+            { 'searchWord': 'Print note', 'replaceWord': '打印笔记' },
+        ],
+    },
+    {
+        "description": "标签页属性设置栏",
+        "selector": ".ribbon-body-container",
+        "method": "tab",
+        "translation": [
+            { 'searchWord': 'Note type', 'replaceWord': '笔记类型' },
+            { 'searchWord': 'Relation Map', 'replaceWord': '关系图' },
+            { 'searchWord': 'Render Note', 'replaceWord': '渲染笔记' },
+            { 'searchWord': 'Mermaid Diagram', 'replaceWord': '美人鱼图' },
+            { 'searchWord': 'Protect the note', 'replaceWord': '保护笔记' },
+            { 'searchWord': 'Editable', 'replaceWord': '允许编辑' },
+            { 'searchWord': 'Bookmark', 'replaceWord': '书签' },
+            { 'searchWord': 'Shared', 'replaceWord': '分享' },
             {
                 'searchWord': 'This note is placed into the following paths',
                 'replaceWord': '这个笔记已被放到以下路径中',
@@ -586,28 +569,6 @@ const translationSettingList = [
                 'searchWord': 'Clone note to new location...',
                 'replaceWord': '克隆到新路径...',
             },
-            { 'searchWord': 'Note Map', 'replaceWord': '笔记地图' },
-            { 'searchWord': 'Similar Notes', 'replaceWord': '相似笔记' },
-            { 'searchWord': 'Note Info', 'replaceWord': '笔记信息' },
-
-            {
-                'searchWord': ' Re-render note',
-                'replaceWord': '重新渲染笔记',
-            },
-            {
-                'searchWord': 'Search in note ',
-                'replaceWord': '在笔记中搜索',
-            },
-            { 'searchWord': ' Note source', 'replaceWord': '笔记源代码' },
-            {
-                'searchWord': ' Open note externally',
-                'replaceWord': '用外部程序打开笔记',
-            },
-            { 'searchWord': 'Import files', 'replaceWord': '导入文件' },
-            { 'searchWord': 'Export note', 'replaceWord': '导出笔记' },
-            { 'searchWord': ' Print note', 'replaceWord': '打印笔记' },
-
-
             {
                 'searchWord': 'Fast search option disables full text search of note contents which might speed up searching in large databases.',
                 'replaceWord': '"快速搜索"选项禁用了笔记内容的全文搜索, 这可能会加快大型数据库中的搜索速度.',
@@ -742,6 +703,12 @@ const recurveSearchNodeAndReplaceText = (translation, node) => {
                 const reg = new RegExp(searchWord, 'g');
                 if (node.textContent.trim() !== '' && reg.test(node.textContent))
                     node.textContent = node.textContent.replace(reg, replaceWord);
+                if (typeof node.getAttribute === 'function') {
+                    const title = node.getAttribute('title');
+                    if (typeof title === 'string' && title.trim() !== '') {
+                        node.setAttribute('title', title.replace(reg, replaceWord));
+                    }
+                }
             }
         }
     }
@@ -756,6 +723,7 @@ const recurveSearchNodeAndReplaceText = (translation, node) => {
 const translate = (translation, node, description) => {
     console.log('执行静态翻译：', description, node);
     recurveSearchNodeAndReplaceText(translation, node);
+    tooltipTranslate(translation, node, description);
 };
 
 /**
@@ -768,11 +736,13 @@ const translate = (translation, node, description) => {
 const observeAndTranslate = (translation, node, description, monitor = ["childList"]) => {
     /**
      * @param {Array<MutationRecord>} mutationList
+     * @param {MutationObserver} mutationObserver
      */
-    const mutationCallback = (mutationList) => {
+    const mutationCallback = (mutationList, mutationObserver) => {
         mutationList.forEach((mutation) => {
             console.log('执行动态翻译：', description, mutation.target);
             recurveSearchNodeAndReplaceText(translation, mutation.target);
+            tooltipTranslate(translation, mutation.target, description);
         });
     };
 
@@ -821,14 +791,22 @@ const tooltipTranslate = (translation, node, description) => {
             }
         }
     });
-    node.querySelectorAll('[data-toggle="tooltip"],[aria-haspopup="true"]').forEach(element => {
-        tooltipMutationObserver.observe(element, {
-            "attributes": true,
-            "childList": false,
-            "subtree": false,
-        });
+    node.querySelectorAll('[data-toggle="tooltip"],.icon-action,.ribbon-tab-title-icon,.note-icon').forEach(element => {
+        if (element.getAttribute('data-translation-observed') !== 'true') {
+            element.setAttribute('data-translation-observed', 'true');
+            tooltipMutationObserver.observe(element, {
+                "attributes": true,
+                "childList": false,
+                "subtree": false,
+            });
+        }
     });
 };
+
+/**
+ * @type {Array<{translation:Translation,selector:String,description:String}>}
+ */
+const tabTranslateTaskList = [];
 
 for (const {
     method,
@@ -842,7 +820,6 @@ for (const {
         case "static": {
             nodeList.forEach(node => {
                 translate(translation, node, description);
-                tooltipTranslate(translation, node, description);
             });
             break;
         }
@@ -850,10 +827,93 @@ for (const {
             nodeList.forEach(node => observeAndTranslate(translation, node, description, monitor));
             break;
         }
+        case "tab": {
+            tabTranslateTaskList.push({
+                translation,
+                selector,
+                description,
+            });
+            break;
+        }
         default: {
             if (typeof method === 'function') {
                 method(translation, selector, description);
             }
+        }
+    }
+}
+
+{
+    /*
+    加载脚本前标签页已经存在；
+    新建标签页切换展示前不加载属性按钮label；
+    新建标签页新增加一套DOM结构无法被事先监视；
+     */
+
+    const tabTranslate = (tabElement) => {
+        for (const {
+            translation,
+            selector,
+            description
+        } of tabTranslateTaskList) {
+            const nodeList = tabElement.querySelectorAll(selector);
+            for (const node of nodeList) {
+                translate(translation, node, description);
+            }
+        }
+    };
+
+    {
+        // 翻译当前已加载的标签页
+        const currentLoadedTabElement = document.querySelector('.split-note-container-widget>.note-split:not(.hidden-ext)');
+        if (currentLoadedTabElement !== null) {
+            tabTranslate(currentLoadedTabElement);
+            currentLoadedTabElement.setAttribute('data-translation-observed', 'true');
+        }
+    }
+
+    const observeTab = tabElement => {
+        if (tabElement.getAttribute('data-translation-observed') !== 'true') {
+            tabElement.setAttribute('data-translation-observed', 'true');
+            const tabObserver = new MutationObserver((tabMutationRecordList, tabMutationObserver) => {
+                for (const tabMutationRecord of tabMutationRecordList) {
+                    tabTranslate(tabMutationRecord.target);
+                }
+                tabMutationObserver.disconnect();
+            });
+            tabObserver.observe(tabElement, {
+                "attributes": true,
+                "childList": false,
+                "subtree": false,
+            });
+        }
+    };
+
+    {
+        // 翻译当前已打开但未加载的标签页
+        const currentUnloadedTabElementList = document.querySelectorAll('.split-note-container-widget>.note-split.hidden-ext');
+        currentUnloadedTabElementList.forEach(tabElement => {
+            observeTab(tabElement);
+        });
+    }
+
+
+    {
+        // 翻译未来打开的标签页
+        // 观察.split-note-container-widget的childList变化
+        const splitNoteContainerWidgetElement = document.querySelector('.split-note-container-widget');
+        if (splitNoteContainerWidgetElement !== null) {
+            const splitNoteContainerWidgetObserver = new MutationObserver((tabListMutationRecordList) => {
+                for (const mutationRecord of tabListMutationRecordList) {
+                    const tabList = mutationRecord.target.childNodes;
+                    tabList.forEach(observeTab);
+                }
+            });
+            splitNoteContainerWidgetObserver.observe(splitNoteContainerWidgetElement, {
+                "attributes": false,
+                "childList": true,
+                "subtree": false,
+            });
         }
     }
 }
