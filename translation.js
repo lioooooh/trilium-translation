@@ -800,6 +800,36 @@ const observeAndTranslate = (translation, node, description, monitor = ["childLi
     observer.observe(node, observerConfig);
 };
 
+/**
+ * 翻译气泡
+ * @param {Translation} translation
+ * @param {Element} node
+ * @param {String} description
+ */
+const tooltipTranslate = (translation, node, description) => {
+    // Tooltip
+    // data-toggle="tooltip" aria-describedby
+    const tooltipMutationObserver = new MutationObserver((mutationList) => {
+        for (const mutation of mutationList) {
+            const tooltipId = mutation.target.getAttribute('aria-describedby');
+            if (tooltipId !== null) {
+                const tooltipElement = document.querySelector(`#${tooltipId}`);
+                if (tooltipElement !== null) {
+                    console.log('执行气泡翻译：', description, tooltipElement);
+                    recurveSearchNodeAndReplaceText(translation, tooltipElement);
+                }
+            }
+        }
+    });
+    node.querySelectorAll('[data-toggle="tooltip"],[aria-haspopup="true"]').forEach(element => {
+        tooltipMutationObserver.observe(element, {
+            "attributes": true,
+            "childList": false,
+            "subtree": false,
+        });
+    });
+};
+
 for (const {
     method,
     monitor,
@@ -810,7 +840,10 @@ for (const {
     const nodeList = document.querySelectorAll(selector);
     switch (method) {
         case "static": {
-            nodeList.forEach(node => translate(translation, node, description));
+            nodeList.forEach(node => {
+                translate(translation, node, description);
+                tooltipTranslate(translation, node, description);
+            });
             break;
         }
         case "dynamic": {
