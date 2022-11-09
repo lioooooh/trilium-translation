@@ -727,15 +727,20 @@ const tagNameListExcluded = [
  * @param {Element|Node} node
  */
 const recurveSearchNodeAndReplaceText = (translation, node) => {
-    // 翻译title，有些气泡是使用title里的文本
-    for (const { searchWord, replaceWord } of translation) {
-        const reg = new RegExp(searchWord, 'g');
-        if (typeof node.getAttribute === 'function') {
-            const title = node.getAttribute('title');
-            if (typeof title === 'string' && title.trim() !== '') {
-                node.setAttribute('title', title.replace(reg, replaceWord));
+    // 翻译元素属性里的文本
+    if (typeof node.getAttribute === 'function') {
+        ['title', 'data-placeholder'].map(attributeName => {
+            const attributeValue = node.getAttribute(attributeName);
+            if (typeof attributeValue === 'string' && attributeValue.trim() !== '') {
+                for (const { searchWord, replaceWord } of translation) {
+                    const reg = new RegExp(searchWord, 'g');
+                    if (reg.test(attributeValue)) {
+                        node.setAttribute(attributeName, attributeValue.replace(reg, replaceWord));
+                        break;
+                    }
+                }
             }
-        }
+        });
     }
 
     // 有子元素即递归进入，无子元素则翻译文本
@@ -905,6 +910,7 @@ for (const {
         (new MutationObserver(() => {
             tabTranslate(tabElement);
         })).observe(tabElement.querySelector('.ribbon-container'), {
+            "attributes": true,
             "childList": true,
             "subtree": true,
         });
