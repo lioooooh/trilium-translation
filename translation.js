@@ -580,6 +580,10 @@ const translationSettingList = [
                 'replaceWord': '当前没有继承的属性',
             },
             {
+                'searchWord': 'Type the labels and relations here',
+                'replaceWord': '在此输入标签和关系',
+            },
+            {
                 'searchWord': 'This note is placed into the following paths',
                 'replaceWord': '这个笔记已被放到以下路径中',
             },
@@ -715,6 +719,7 @@ for (const translationSetting of translationSettingList) {
  * @type {string[]}
  */
 const tagNameListExcluded = [
+    'STYLE',
     'SCRIPT',
     'INPUT',
     'TEXTAREA',
@@ -744,16 +749,23 @@ const recurveSearchNodeAndReplaceText = (translation, node) => {
     }
 
     // 有子元素即递归进入，无子元素则翻译文本
-    if (node.hasChildNodes()) {
-        node.childNodes.forEach(childNode => {
-            recurveSearchNodeAndReplaceText(translation, childNode);
-        });
-    } else {
-        if (!tagNameListExcluded.includes(node.tagName)) {
-            for (const { searchWord, replaceWord } of translation) {
-                const reg = new RegExp(searchWord, 'g');
-                if (node.textContent.trim() !== '' && reg.test(node.textContent))
-                    node.textContent = node.textContent.replace(reg, replaceWord);
+    if (!tagNameListExcluded.includes(node.tagName)) {
+        if (node.hasChildNodes()) {
+            node.childNodes.forEach(childNode => {
+                recurveSearchNodeAndReplaceText(translation, childNode);
+            });
+        } else {
+            let parentElement = node;
+            while (parentElement?.nodeType !== Node.ELEMENT_NODE) {
+                parentElement = parentElement.parentNode;
+            }
+            if (parentElement.closest('.ck') === null) { // 包含用户输入，这些元素不翻译textContent
+                for (const { searchWord, replaceWord } of translation) {
+                    const reg = new RegExp(searchWord, 'g');
+                    if (node.textContent.trim() !== '' && reg.test(node.textContent)) {
+                        node.textContent = node.textContent.replace(reg, replaceWord);
+                    }
+                }
             }
         }
     }
@@ -779,10 +791,6 @@ const translate = (translation, node, description) => {
  * @param monitor
  */
 const observeAndTranslate = (translation, node, description, monitor = ["childList"]) => {
-    /**
-     * @param {Array<MutationRecord>} mutationList
-     * @param {MutationObserver} mutationObserver
-     */
     const mutationCallback = () => {
         console.log('执行动态翻译：', description, node);
         recurveSearchNodeAndReplaceText(translation, node);
