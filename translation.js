@@ -691,6 +691,25 @@ const translationSettingList = [
         ],
     },
     {
+        "description": "笔记正文部分",
+        "selector": ".scrolling-container .ck-placeholder,.editable-code-buttons-widget",
+        "method": "tab",
+        "translation": [
+            {
+                'searchWord': 'Type the content of your note here',
+                'replaceWord': '在此输入笔记内容',
+            },
+            {
+                'searchWord': 'Execute',
+                'replaceWord': '运行',
+            },
+            {
+                'searchWord': 'API docs',
+                'replaceWord': 'API文档',
+            },
+        ],
+    },
+    {
         "description": "右键菜单",
         "selector": "#context-menu-container",
         "method": "dynamic",
