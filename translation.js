@@ -597,21 +597,46 @@ const translationSettingList = [
                 'searchWord': 'Note is protected, click to make it unprotected',
                 'replaceWord': '笔记已被保护，点击以取消保护',
             },
-
+            { 'searchWord': 'Auto', 'replaceWord': '自动' },
+            { 'searchWord': "Note is editable if it's not too long.", 'replaceWord': '默认可编辑，除非笔记内容过长' },
+            { 'searchWord': 'Read-only', 'replaceWord': '只读' },
+            { 'searchWord': 'Note is read-only, but can be edited with a button click', 'replaceWord': '默认只读，点击按钮进行编辑' },
+            { 'searchWord': 'Always editable', 'replaceWord': '总是可编辑' },
+            { 'searchWord': 'Always Editable', 'replaceWord': '总是可编辑' },
+            { 'searchWord': 'Note is always editable, regardless of its length', 'replaceWord': '不管内容有多长，笔记总是可编辑' },
             { 'searchWord': 'Relation Map', 'replaceWord': '关系图' },
             { 'searchWord': 'Render Note', 'replaceWord': '渲染笔记' },
             { 'searchWord': 'Mermaid Diagram', 'replaceWord': '美人鱼图' },
 
             { 'searchWord': 'Editable', 'replaceWord': '允许编辑' },
             { 'searchWord': 'Bookmark', 'replaceWord': '书签' },
+            {
+                'searchWord': 'Bookmark this note to the left side panel',
+                'replaceWord': '将此笔记添加到左侧书签栏',
+            },
+            {
+                'searchWord': 'Remove bookmark',
+                'replaceWord': '移除书签',
+            },
             { 'searchWord': 'Shared', 'replaceWord': '分享' },
+            { 'searchWord': 'Share the note', 'replaceWord': '分享此笔记' },
+            { 'searchWord': 'Unshare the note', 'replaceWord': '取消分享' },
+            { 'searchWord': 'Open help page', 'replaceWord': '打开帮助页面' },
+            {
+                'searchWord': 'Type the labels and relations here',
+                'replaceWord': '在此输入键值对',
+            },
+            {
+                'searchWord': 'Save attributes',
+                'replaceWord': '保存属性',
+            },
+            {
+                'searchWord': 'Add a new attribute',
+                'replaceWord': '添加新属性',
+            },
             {
                 'searchWord': 'No inherited attributes',
                 'replaceWord': '当前没有继承的属性',
-            },
-            {
-                'searchWord': 'Type the labels and relations here',
-                'replaceWord': '在此输入标签和关系',
             },
             {
                 'searchWord': 'This note is placed into the following paths',
@@ -620,6 +645,46 @@ const translationSettingList = [
             {
                 'searchWord': 'Clone note to new location...',
                 'replaceWord': '克隆到新路径...',
+            },
+            {
+                'searchWord': 'Link Map',
+                'replaceWord': '关联图',
+            },
+            {
+                'searchWord': 'Tree map',
+                'replaceWord': '树状图',
+            },
+            {
+                'searchWord': 'Open full',
+                'replaceWord': '展开',
+            },
+            {
+                'searchWord': 'Collapse to normal size',
+                'replaceWord': '收缩',
+            },
+            {
+                'searchWord': 'Note ID',
+                'replaceWord': '笔记ID',
+            },
+            {
+                'searchWord': 'Created',
+                'replaceWord': '创建于',
+            },
+            {
+                'searchWord': 'Modified',
+                'replaceWord': '最后修改于',
+            },
+            {
+                'searchWord': 'Type',
+                'replaceWord': '笔记类型',
+            },
+            {
+                'searchWord': 'Note size',
+                'replaceWord': '空间占用',
+            },
+            {
+                'searchWord': 'calculate',
+                'replaceWord': '计算',
             },
             {
                 'searchWord': 'Fast search option disables full text search of note contents which might speed up searching in large databases.',
