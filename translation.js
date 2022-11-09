@@ -850,6 +850,10 @@ for (const {
     新建标签页新增加一套DOM结构无法被事先监视；
      */
 
+    /**
+     * 翻译标签页
+     * @param {Element} tabElement
+     */
     const tabTranslate = (tabElement) => {
         for (const {
             translation,
@@ -863,18 +867,41 @@ for (const {
         }
     };
 
+    /**
+     * 观察属性按钮栏在属性变化后的刷新，以重新翻译
+     * @param {Element} tabElement
+     */
+    const observerRibbonTabContainer = (tabElement) => {
+        (new MutationObserver(mutationRecordList => {
+            for (const mutationRecord of mutationRecordList) {
+                if (mutationRecord.target.className.indexOf('ribbon-tab-container') >= 0) {
+                    tabTranslate(tabElement);
+                    break; // 避免重复翻译
+                }
+            }
+        })).observe(tabElement.querySelector('.ribbon-container'), {
+            "childList": true,
+            "subtree": true,
+        });
+    };
+
     {
         // 翻译当前已加载的标签页
         const currentLoadedTabElement = document.querySelector('.split-note-container-widget>.note-split:not(.hidden-ext)');
         if (currentLoadedTabElement !== null) {
             tabTranslate(currentLoadedTabElement);
+            observerRibbonTabContainer(currentLoadedTabElement);
             currentLoadedTabElement.setAttribute('data-translation-observed', 'true');
         }
     }
 
+    /**
+     * 观察标签页的加载，以进行翻译
+     * @param {Element} tabElement
+     */
     const observeTab = tabElement => {
         if (tabElement.getAttribute('data-translation-observed') !== 'true') {
-            tabElement.setAttribute('data-translation-observed', 'true');
+            tabElement.setAttribute('data-translation-observed', 'true'); // 每个标签页只翻译一次
             const tabObserver = new MutationObserver((tabMutationRecordList, tabMutationObserver) => {
                 for (const tabMutationRecord of tabMutationRecordList) {
                     tabTranslate(tabMutationRecord.target);
@@ -894,19 +921,23 @@ for (const {
         const currentUnloadedTabElementList = document.querySelectorAll('.split-note-container-widget>.note-split.hidden-ext');
         currentUnloadedTabElementList.forEach(tabElement => {
             observeTab(tabElement);
+            observerRibbonTabContainer(tabElement);
         });
     }
 
 
     {
         // 翻译未来打开的标签页
-        // 观察.split-note-container-widget的childList变化
+        // 观察标签页容器变化，以发现新开的标签页
         const splitNoteContainerWidgetElement = document.querySelector('.split-note-container-widget');
         if (splitNoteContainerWidgetElement !== null) {
             const splitNoteContainerWidgetObserver = new MutationObserver((tabListMutationRecordList) => {
                 for (const mutationRecord of tabListMutationRecordList) {
-                    const tabList = mutationRecord.target.childNodes;
-                    tabList.forEach(observeTab);
+                    const tabElementList = mutationRecord.target.childNodes;
+                    tabElementList.forEach(tabElement => {
+                        observeTab(tabElement);
+                        observerRibbonTabContainer(tabElement);
+                    });
                 }
             });
             splitNoteContainerWidgetObserver.observe(splitNoteContainerWidgetElement, {
