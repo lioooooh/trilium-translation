@@ -555,9 +555,18 @@ const translationSettingList = [
         "translation": [
             { 'searchWord': 'Note type', 'replaceWord': '笔记类型' },
             { 'searchWord': 'Protect the note', 'replaceWord': '保护笔记' },
-            { 'searchWord': 'Note is not protected, click to make it protected', 'replaceWord': '笔记未被保护，点击以进行保护' },
-            { 'searchWord': 'Unprotect the note', 'replaceWord': '取消保护笔记' },
-            { 'searchWord': 'Note is protected, click to make it unprotected', 'replaceWord': '笔记已被保护，点击以取消保护' },
+            {
+                'searchWord': 'Note is not protected, click to make it protected',
+                'replaceWord': '笔记未被保护，点击以进行保护',
+            },
+            {
+                'searchWord': 'Unprotect the note',
+                'replaceWord': '取消保护笔记',
+            },
+            {
+                'searchWord': 'Note is protected, click to make it unprotected',
+                'replaceWord': '笔记已被保护，点击以取消保护',
+            },
 
             { 'searchWord': 'Relation Map', 'replaceWord': '关系图' },
             { 'searchWord': 'Render Note', 'replaceWord': '渲染笔记' },
@@ -670,6 +679,22 @@ const translationSettingList = [
             {
                 'searchWord': "Open a note by typing the note's title into the input below or choose a note in the tree.",
                 'replaceWord': '在下方输入笔记名称或者点树形图来打开笔记.',
+            },
+        ],
+    },
+    {
+        "description": "右键菜单",
+        "selector": "#context-menu-container",
+        "method": "dynamic",
+        "monitor": ["attributes"],
+        "translation": [
+            {
+                'searchWord': 'Open in a new tab',
+                'replaceWord': '新建标签页打开',
+            },
+            {
+                'searchWord': 'Move this tab to a new window',
+                'replaceWord': '将标签页移动到新窗口',
             },
         ],
     },
