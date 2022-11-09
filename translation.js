@@ -576,6 +576,10 @@ const translationSettingList = [
             { 'searchWord': 'Bookmark', 'replaceWord': '书签' },
             { 'searchWord': 'Shared', 'replaceWord': '分享' },
             {
+                'searchWord': 'No inherited attributes',
+                'replaceWord': '当前没有继承的属性',
+            },
+            {
                 'searchWord': 'This note is placed into the following paths',
                 'replaceWord': '这个笔记已被放到以下路径中',
             },
@@ -904,17 +908,12 @@ for (const {
     };
 
     /**
-     * 观察属性按钮栏在属性变化后的刷新，以重新翻译
+     * 观察属性栏在属性变化后的刷新，以重新翻译标签页
      * @param {Element} tabElement
      */
-    const observerRibbonTabContainer = (tabElement) => {
-        (new MutationObserver(mutationRecordList => {
-            for (const mutationRecord of mutationRecordList) {
-                if (mutationRecord.target.className.indexOf('ribbon-tab-container') >= 0) {
-                    tabTranslate(tabElement);
-                    break; // 避免重复翻译
-                }
-            }
+    const observerRibbonContainer = (tabElement) => {
+        (new MutationObserver(() => {
+            tabTranslate(tabElement);
         })).observe(tabElement.querySelector('.ribbon-container'), {
             "childList": true,
             "subtree": true,
@@ -926,7 +925,7 @@ for (const {
         const currentLoadedTabElement = document.querySelector('.split-note-container-widget>.note-split:not(.hidden-ext)');
         if (currentLoadedTabElement !== null) {
             tabTranslate(currentLoadedTabElement);
-            observerRibbonTabContainer(currentLoadedTabElement);
+            observerRibbonContainer(currentLoadedTabElement);
             currentLoadedTabElement.setAttribute('data-translation-observed', 'true');
         }
     }
@@ -957,7 +956,7 @@ for (const {
         const currentUnloadedTabElementList = document.querySelectorAll('.split-note-container-widget>.note-split.hidden-ext');
         currentUnloadedTabElementList.forEach(tabElement => {
             observeTab(tabElement);
-            observerRibbonTabContainer(tabElement);
+            observerRibbonContainer(tabElement);
         });
     }
 
@@ -972,7 +971,7 @@ for (const {
                     const tabElementList = mutationRecord.target.childNodes;
                     tabElementList.forEach(tabElement => {
                         observeTab(tabElement);
-                        observerRibbonTabContainer(tabElement);
+                        observerRibbonContainer(tabElement);
                     });
                 }
             });
