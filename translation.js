@@ -554,10 +554,15 @@ const translationSettingList = [
         "method": "tab",
         "translation": [
             { 'searchWord': 'Note type', 'replaceWord': '笔记类型' },
+            { 'searchWord': 'Protect the note', 'replaceWord': '保护笔记' },
+            { 'searchWord': 'Note is not protected, click to make it protected', 'replaceWord': '笔记未被保护，点击以进行保护' },
+            { 'searchWord': 'Unprotect the note', 'replaceWord': '取消保护笔记' },
+            { 'searchWord': 'Note is protected, click to make it unprotected', 'replaceWord': '笔记已被保护，点击以取消保护' },
+
             { 'searchWord': 'Relation Map', 'replaceWord': '关系图' },
             { 'searchWord': 'Render Note', 'replaceWord': '渲染笔记' },
             { 'searchWord': 'Mermaid Diagram', 'replaceWord': '美人鱼图' },
-            { 'searchWord': 'Protect the note', 'replaceWord': '保护笔记' },
+
             { 'searchWord': 'Editable', 'replaceWord': '允许编辑' },
             { 'searchWord': 'Bookmark', 'replaceWord': '书签' },
             { 'searchWord': 'Shared', 'replaceWord': '分享' },
@@ -693,6 +698,18 @@ const tagNameListExcluded = [
  * @param {Element|Node} node
  */
 const recurveSearchNodeAndReplaceText = (translation, node) => {
+    // 翻译title，有些气泡是使用title里的文本
+    for (const { searchWord, replaceWord } of translation) {
+        const reg = new RegExp(searchWord, 'g');
+        if (typeof node.getAttribute === 'function') {
+            const title = node.getAttribute('title');
+            if (typeof title === 'string' && title.trim() !== '') {
+                node.setAttribute('title', title.replace(reg, replaceWord));
+            }
+        }
+    }
+
+    // 有子元素即递归进入，无子元素则翻译文本
     if (node.hasChildNodes()) {
         node.childNodes.forEach(childNode => {
             recurveSearchNodeAndReplaceText(translation, childNode);
@@ -703,12 +720,6 @@ const recurveSearchNodeAndReplaceText = (translation, node) => {
                 const reg = new RegExp(searchWord, 'g');
                 if (node.textContent.trim() !== '' && reg.test(node.textContent))
                     node.textContent = node.textContent.replace(reg, replaceWord);
-                if (typeof node.getAttribute === 'function') {
-                    const title = node.getAttribute('title');
-                    if (typeof title === 'string' && title.trim() !== '') {
-                        node.setAttribute('title', title.replace(reg, replaceWord));
-                    }
-                }
             }
         }
     }
