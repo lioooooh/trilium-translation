@@ -799,14 +799,6 @@ const observeAndTranslate = (translation, node, description, monitor = ["childLi
         "childList": monitor.includes('childList'),
         "subtree": monitor.includes('subtree'),
     };
-
-    {
-        const { attributes, childList, subtree } = observerConfig;
-        if (!(attributes || childList || subtree)) {
-            debugger
-        }
-    }
-
     observer.observe(node, observerConfig);
 };
 
