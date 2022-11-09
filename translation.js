@@ -759,7 +759,7 @@ const recurveSearchNodeAndReplaceText = (translation, node) => {
             while (parentElement?.nodeType !== Node.ELEMENT_NODE) {
                 parentElement = parentElement.parentNode;
             }
-            if (parentElement.closest('.ck') === null) { // 包含用户输入，这些元素不翻译textContent
+            if (parentElement.closest('.ck,.note-path-list') === null) { // 包含用户输入，这些元素不翻译textContent
                 for (const { searchWord, replaceWord } of translation) {
                     const reg = new RegExp(searchWord, 'g');
                     if (node.textContent.trim() !== '' && reg.test(node.textContent)) {
