@@ -750,8 +750,120 @@ const translationSettingList = [
                 'replaceWord': '新建标签页打开',
             },
             {
+                'searchWord': 'Open in a new split',
+                'replaceWord': '新建分割页打开',
+            },
+            {
+                'searchWord': 'Insert note after',
+                'replaceWord': '在下方新建笔记',
+            },
+            {
+                'searchWord': 'Insert child note',
+                'replaceWord': '新建子笔记',
+            },
+            {
+                'searchWord': 'Delete this note',
+                'replaceWord': '删除',
+            },
+            {
+                'searchWord': 'Delete',
+                'replaceWord': '删除',
+            },
+            {
+                'searchWord': 'Search in subtree',
+                'replaceWord': '在子目录中搜索',
+            },
+            {
+                'searchWord': 'Hoist note',
+                'replaceWord': '提升笔记',
+            },
+            {
+                'searchWord': 'Edit branch prefix',
+                'replaceWord': '编辑分支前缀',
+            },
+            {
+                'searchWord': 'Advanced',
+                'replaceWord': '高级',
+            },
+            {
+                'searchWord': 'Expand subtree',
+                'replaceWord': '展开子目录树',
+            },
+            {
+                'searchWord': 'Collapse subtree',
+                'replaceWord': '折叠子目录树',
+            },
+            {
+                'searchWord': 'Force note sync',
+                'replaceWord': '强制同步笔记',
+            },
+            {
+                'searchWord': 'Sort by',
+                'replaceWord': '排序',
+            },
+            {
+                'searchWord': 'Recent changes in subtree',
+                'replaceWord': '最近子目录树的变更',
+            },
+            {
+                'searchWord': 'Protect subtree',
+                'replaceWord': '保护子目录树',
+            },
+            {
+                'searchWord': 'Unprotect subtree',
+                'replaceWord': '取消保护子目录树',
+            },
+            {
+                'searchWord': 'Copy / clone',
+                'replaceWord': '复制/克隆',
+            },
+            {
+                'searchWord': 'Clone to',
+                'replaceWord': '克隆到',
+            },
+            {
+                'searchWord': 'Cut',
+                'replaceWord': '剪切',
+            },
+            {
+                'searchWord': 'Move to',
+                'replaceWord': '移动到',
+            },
+            {
+                'searchWord': 'Paste into',
+                'replaceWord': '粘贴到子目录中',
+            },
+            {
+                'searchWord': 'Paste after',
+                'replaceWord': '粘贴为并列',
+            },
+            {
+                'searchWord': 'Duplicate subtree',
+                'replaceWord': '复制子目录树',
+            },
+            {
+                'searchWord': 'Export',
+                'replaceWord': '导出',
+            },
+            {
+                'searchWord': 'Import into note',
+                'replaceWord': '导入到笔记',
+            },
+            {
+                'searchWord': 'Apply bulk actions',
+                'replaceWord': '应用批量操作',
+            },
+            {
                 'searchWord': 'Move this tab to a new window',
                 'replaceWord': '将标签页移动到新窗口',
+            },
+            {
+                'searchWord': 'Close all tabs',
+                'replaceWord': '关闭所有标签页',
+            },
+            {
+                'searchWord': 'Close all tabs except for this',
+                'replaceWord': '关闭除当前页以外的标签页',
             },
         ],
     },
