@@ -778,12 +778,10 @@ const observeAndTranslate = (translation, node, description, monitor = ["childLi
      * @param {Array<MutationRecord>} mutationList
      * @param {MutationObserver} mutationObserver
      */
-    const mutationCallback = (mutationList, mutationObserver) => {
-        mutationList.forEach((mutation) => {
-            console.log('执行动态翻译：', description, mutation.target);
-            recurveSearchNodeAndReplaceText(translation, mutation.target);
-            tooltipTranslate(translation, mutation.target, description);
-        });
+    const mutationCallback = () => {
+        console.log('执行动态翻译：', description, node);
+        recurveSearchNodeAndReplaceText(translation, node);
+        tooltipTranslate(translation, node, description);
     };
 
     // 创建一个观察器实例并传入回调函数
